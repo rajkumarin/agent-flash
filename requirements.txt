@@ -23,3 +23,8 @@ isort>=5.12.0
 flake8>=6.0.0
 mypy>=1.0.0
 pre-commit>=3.0.0
+
+# Camera overlay backend (POC)
+fastapi>=0.116.0
+uvicorn>=0.34.0
+pydantic>=2.8.0

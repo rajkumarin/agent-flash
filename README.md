@@ -1,5 +1,13 @@
 # CAD Repair Assistant
 
+> Status update (2026-03-04): a new tablet camera-overlay POC path is in progress in this repo.
+> Start here for current work:
+> - `AGENTS.md`
+> - `IMPLEMENTATION_CHECKLIST.md`
+> - `backend/README.md`
+> - `client/README.md`
+> - `POC_RESOURCES.md`
+
 An AI-powered assistant that helps identify missing or damaged parts in CAD models by comparing uploaded images against FreeCAD reference models. Built with MCP (Model Context Protocol), Google Gemini AI, and Streamlit.
 
 ## Overview

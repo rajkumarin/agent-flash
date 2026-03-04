@@ -51,6 +51,9 @@ screenshots/
 .env.local
 .env.*.local
 
+# Local certificates / keys
+certs/
+
 # Logs
 *.log
 logs/

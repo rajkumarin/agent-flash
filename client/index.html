@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LEGO Dozer Camera Overlay PoC</title>
+    <link rel="stylesheet" href="./styles.css?v=3" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <h1>LEGO Dozer Overlay PoC</h1>
+        <div class="controls">
+          <label>
+            Backend WS
+            <input id="wsUrl" value="ws://localhost:8080/ws/session" />
+          </label>
+          <button id="startBtn">Start Camera</button>
+          <button id="connectBtn">Connect Backend</button>
+        </div>
+      </header>
+
+      <main class="stage">
+        <video id="camera" autoplay playsinline muted></video>
+        <canvas id="overlay"></canvas>
+      </main>
+
+      <footer class="status">
+        <span id="connStatus">Socket: disconnected</span>
+        <span id="fpsStatus">FPS: -</span>
+        <span id="latencyStatus">Latency: -</span>
+        <span id="modelStatus">Model: -</span>
+        <span id="appStatus">Status: idle</span>
+      </footer>
+      <pre id="debugBox" style="margin:0; max-height:140px; overflow:auto; font-size:12px; background:#0d1524; border:1px solid #2c3b52; border-radius:8px; padding:8px;"></pre>
+    </div>
+
+    <script src="./app.js?v=3"></script>
+  </body>
+</html>
