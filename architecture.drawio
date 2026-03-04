@@ -1,0 +1,185 @@
+<mxfile host="app.diagrams.net" modified="2026-01-03T00:00:00.000Z" agent="draw.io" version="21.0.0">
+  <diagram name="CAD Repair Assistant Architecture" id="architecture">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="CAD Repair Assistant - System Architecture (MCP-Only)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="500" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- User -->
+        <mxCell id="user" value="User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="60" y="250" width="40" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Browser/Streamlit UI -->
+        <mxCell id="streamlit" value="Streamlit Web UI&#xa;(server.py)&#xa;&#xa;3 Tabs:&#xa;- Quality Inspection&#xa;- Parts List&#xa;- Repair Guide" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;align=center;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="140" y="200" width="160" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow: User to Streamlit -->
+        <mxCell id="arrow1" value="Upload Image" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="user" target="streamlit">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- MCP Tools Module (THE ONLY INTERFACE) -->
+        <mxCell id="mcptools" value="FreeCADMCPTools&#xa;(mcp_tools.py)&#xa;&#xa;THE ONLY FreeCAD Interface&#xa;&#xa;Tools:&#xa;- list_documents()&#xa;- get_all_parts()&#xa;- get_visible_parts()&#xa;- get_view_screenshot()&#xa;- highlight_part()&#xa;- compare_views()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;align=center;spacingTop=5;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="360" y="180" width="180" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow: Streamlit to MCP Tools -->
+        <mxCell id="arrow_mcp" value="MCP Tools API" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="streamlit" target="mcptools">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Cloud indicator for Gemini -->
+        <mxCell id="cloud" value="" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;opacity=30;" vertex="1" parent="1">
+          <mxGeometry x="100" y="50" width="220" height="130" as="geometry" />
+        </mxCell>
+
+        <!-- Google Gemini API -->
+        <mxCell id="gemini" value="Google Gemini API&#xa;&#xa;- View Detection&#xa;- Image Analysis&#xa;- Report Generation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;verticalAlign=top;align=center;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="130" y="70" width="160" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow: Streamlit to Gemini -->
+        <mxCell id="arrow2" value="Image + Parts" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="streamlit" target="gemini">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- FreeCAD Application -->
+        <mxCell id="freecad" value="FreeCAD&#xa;&#xa;- 3D CAD Model&#xa;- Part Objects&#xa;- View Rendering" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;verticalAlign=top;align=center;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="800" y="320" width="140" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- RPC Server (inside FreeCAD) -->
+        <mxCell id="rpcserver" value="XML-RPC Server&#xa;(rpc_server.py)&#xa;&#xa;- get_objects()&#xa;- get_all_parts_mapping()&#xa;- get_active_screenshot()&#xa;- Custom Quaternion Views&#xa;- View Visibility Filter" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;verticalAlign=top;align=center;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="580" y="290" width="180" height="160" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow: MCP Tools to RPC -->
+        <mxCell id="arrow4" value="XML-RPC&#xa;(port 9875)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="mcptools" target="rpcserver">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow: RPC to FreeCAD -->
+        <mxCell id="arrow5" value="FreeCAD API" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="rpcserver" target="freecad">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Gemini Function Calling Module -->
+        <mxCell id="geminifunc" value="Gemini Function Calling&#xa;(mcp_tools.py)&#xa;&#xa;- get_gemini_tools_schema()&#xa;- MCPToolExecutor&#xa;- run_agentic_loop()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;align=center;spacingTop=5;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="360" y="400" width="180" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow: MCP Tools to Gemini Function Calling -->
+        <mxCell id="arrow_func" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1;dashed=1;" edge="1" parent="1" source="mcptools" target="geminifunc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Supported Views Box -->
+        <mxCell id="viewsbox" value="Supported View Angles" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="140" y="520" width="220" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="view1" value="Standard: Front, Rear, Left, Right, Top" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0" vertex="1" parent="viewsbox">
+          <mxGeometry y="26" width="220" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="view2" value="Diagonal: FrontLeft, FrontRight" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="viewsbox">
+          <mxGeometry y="48" width="220" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="view3" value="Diagonal: RearLeft, RearRight" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="viewsbox">
+          <mxGeometry y="70" width="220" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="view4" value="---" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="viewsbox">
+          <mxGeometry y="92" width="220" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="view5" value="Custom quaternion orientations for" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="viewsbox">
+          <mxGeometry y="106" width="220" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="view6" value="correct model-specific rendering" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="viewsbox">
+          <mxGeometry y="128" width="220" height="22" as="geometry" />
+        </mxCell>
+
+        <!-- Data Flow Box -->
+        <mxCell id="dataflow" value="Quality Inspection Flow" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="400" y="540" width="340" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="flow1" value="1. User uploads image of physical model" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="dataflow">
+          <mxGeometry y="26" width="340" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="flow2" value="2. Gemini detects view angle (Left, FrontRight, etc.)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="dataflow">
+          <mxGeometry y="48" width="340" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="flow3" value="3. MCP get_visible_parts() filters by view (bbox analysis)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="dataflow">
+          <mxGeometry y="70" width="340" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="flow4" value="4. Gemini compares image vs filtered parts list" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="dataflow">
+          <mxGeometry y="92" width="340" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="flow5" value="5. MCP get_view_screenshot() renders CAD reference" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="dataflow">
+          <mxGeometry y="114" width="340" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="flow6" value="6. Generate Quality Inspection Report" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="dataflow">
+          <mxGeometry y="136" width="340" height="22" as="geometry" />
+        </mxCell>
+
+        <!-- MCP Tools Feature Box -->
+        <mxCell id="mcpfeatures" value="MCP Tools Architecture (Key Design)" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="780" y="520" width="280" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="mcpf1" value="- Single interface for ALL FreeCAD calls" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="mcpfeatures">
+          <mxGeometry y="26" width="280" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="mcpf2" value="- ToolResult dataclass for consistent responses" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="mcpfeatures">
+          <mxGeometry y="46" width="280" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="mcpf3" value="- View visibility filtering via get_visible_parts()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="mcpfeatures">
+          <mxGeometry y="66" width="280" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="mcpf4" value="- Gemini function calling support (agentic)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="mcpfeatures">
+          <mxGeometry y="86" width="280" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="mcpf5" value="- proxy attribute for direct RPC when needed" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="mcpfeatures">
+          <mxGeometry y="106" width="280" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="mcpf6" value="- No duplicate code in server.py" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="mcpfeatures">
+          <mxGeometry y="126" width="280" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Legend -->
+        <mxCell id="legend" value="Legend" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="980" y="80" width="200" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1" value="Green = Streamlit UI" style="text;strokeColor=none;fillColor=#d5e8d4;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="legend">
+          <mxGeometry y="26" width="200" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2" value="Blue = MCP Tools (Python)" style="text;strokeColor=none;fillColor=#dae8fc;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="legend">
+          <mxGeometry y="50" width="200" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3" value="Yellow = External AI (Gemini)" style="text;strokeColor=none;fillColor=#fff2cc;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="legend">
+          <mxGeometry y="74" width="200" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4" value="Purple = XML-RPC Server" style="text;strokeColor=none;fillColor=#e1d5e7;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="legend">
+          <mxGeometry y="98" width="200" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="leg5" value="Red = FreeCAD Application" style="text;strokeColor=none;fillColor=#f8cecc;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="legend">
+          <mxGeometry y="122" width="200" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- Tech Stack Note -->
+        <mxCell id="techstack" value="Tech Stack:&#xa;- Python 3.x + Streamlit&#xa;- Google Gemini 2.5 Flash&#xa;- FreeCAD + XML-RPC&#xa;- MCP Tools (Single Interface)&#xa;- PIL for image handling" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=11;spacingLeft=5;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="980" y="250" width="170" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- Architecture Note -->
+        <mxCell id="archnote" value="MCP-Only Architecture&#xa;&#xa;All FreeCAD interactions go&#xa;through FreeCADMCPTools.&#xa;No direct RPC calls from&#xa;server.py - clean separation." style="text;html=1;strokeColor=#6c8ebf;fillColor=#dae8fc;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=11;spacingLeft=5;spacingTop=5;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="980" y="380" width="170" height="100" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
